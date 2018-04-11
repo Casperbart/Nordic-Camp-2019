@@ -97,15 +97,31 @@ namespace Backend.Model
         /// </summary>
         public virtual ICollection<Guardian> Guardians { get; set; } = new List<Guardian>();
     }
-
+    /// <summary>
+    /// Here the link between the User and the chosen Activity is made.
+    /// </summary>
     public class ActivityRegistration
     {
+        /// <summary>
+        /// The user that have signed up to the Activity
+        /// </summary>
         public User User { get; set; }
+        
+        /// <summary>
+        /// The Activity that the user have signed up to 
+        /// </summary>
         public Activity Activity { get; set; }
     }
 
+    /// <summary>
+    /// A event that is happning at the Camp for a smaller group of people.
+    /// This could include: shopping trip to Rønne, Volly training, icecream teasting etc.
+    /// </summary>        
     public class Activity
     {
+        /// <summary>
+        /// The id used in the backend database
+        /// </summary>
         [Key]
         public int Id { get; set; }
 
@@ -126,7 +142,10 @@ namespace Backend.Model
         /// </summary>
         public int Price { get; set; }
     }
-
+    
+    /// <summary>
+    /// If anything happens to the user / camper the Guardian should be contacted
+    /// </summary>
     public class Guardian
     {
         /// <summary>
@@ -148,7 +167,7 @@ namespace Backend.Model
         public string LastName { get; set; }
 
         /// <summary>
-        /// A electronic adress where we can send them mails electronic
+        /// A electronic adress where we can send them mails electronicly
         /// </summary>
         [EmailAddress]
         public string Email { get; set; }
