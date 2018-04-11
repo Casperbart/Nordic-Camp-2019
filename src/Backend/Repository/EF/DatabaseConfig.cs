@@ -13,7 +13,9 @@ namespace Backend.Repository.EF
         public static void InitializeDatabase(IServiceProvider serviceProvider)
         {
             // Get context
-            var context = serviceProvider.GetRequiredService<ApplicationContext>();
+            var context = serviceProvider.GetService<ApplicationContext>();
+            if (context == null)
+                return;
 
             // Migrate database
             context.Database.Migrate();
