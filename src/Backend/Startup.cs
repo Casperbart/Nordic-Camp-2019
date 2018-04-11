@@ -14,12 +14,20 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Backend
 {
     public class Startup
     {
+        public Startup(IConfiguration config)
+        {
+            Config = config ?? throw new ArgumentNullException(nameof(config));
+        }
+
+        public IConfiguration Config { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -30,11 +38,20 @@ namespace Backend
             services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
             services.AddTransient<DataLoaderDocumentListener>();
 
-            // Add EF Core
-            services.AddDbContextPool<ApplicationContext>(options => options.UseSqlite("Data Source=Backend.db"));
+            // Setup repository
+            if (Config["Repository"] == "InMemory")
+            {
+                // Add repositories
+                services.AddMockRepository();
+            }
+            else
+            {
+                // Add EF Core
+                services.AddDbContextPool<ApplicationContext>(options => options.UseSqlite("Data Source=Backend.db"));
 
-            // Add repositories
-            services.AddEfRepository();
+                // Add repositories
+                services.AddEfRepository();
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
