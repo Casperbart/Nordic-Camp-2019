@@ -7,6 +7,7 @@ using Backend.Model;
 
 namespace Backend.Repository.Mock.Repository
 {
+    /// <inheritdoc />
     public class MockPageRepository : IPageRepository
     {
         private List<Page> _pages = new List<Page>()
@@ -18,21 +19,25 @@ namespace Backend.Repository.Mock.Repository
             }
         };
 
+        /// <inheritdoc />
         public Task<IEnumerable<Page>> Get()
         {
             return Task.FromResult((IEnumerable<Page>)_pages.AsReadOnly());
         }
 
+        /// <inheritdoc />
         public Task<IEnumerable<INode<Page>>> GetNodes(string after, int first)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public Task<IEnumerable<IPageInfo<Page>>> GetPageInfo(string after, int first)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public Task<Page> Get(string cursor)
         {
             var page = _pages.FirstOrDefault(e => string.Equals(e.Url, cursor, StringComparison.CurrentCultureIgnoreCase));
@@ -44,6 +49,7 @@ namespace Backend.Repository.Mock.Repository
             return Task.FromResult(page);
         }
 
+        /// <inheritdoc />
         public Task<Page> AddPage(string url, string content)
         {
             // Check if page already exists
@@ -58,6 +64,7 @@ namespace Backend.Repository.Mock.Repository
             return Task.FromResult(page);
         }
 
+        /// <inheritdoc />
         public Task<Page> EditPage(string url, string content)
         {
             // Get page
@@ -73,6 +80,7 @@ namespace Backend.Repository.Mock.Repository
             return Task.FromResult(page);
         }
 
+        /// <inheritdoc />
         public Task DeletePage(string url)
         {
             // Get page

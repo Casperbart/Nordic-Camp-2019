@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repository.EF.Repository
 {
+    /// <inheritdoc />
     public class EfPageRepository : IPageRepository
     {
         private readonly ApplicationContext _context;
@@ -17,22 +18,26 @@ namespace Backend.Repository.EF.Repository
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<Page>> Get()
         {
             return await _context.Pages.ToListAsync().ConfigureAwait(false);
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<INode<Page>>> GetNodes(string after, int first)
         {
             return await _context.Pages.OrderBy(e => e.Url).SkipWhile(e => e.Url != after).Take(first)
                 .Select(e => new EFNode<Page>(e.Url, e)).ToListAsync().ConfigureAwait(false);
         }
 
+        /// <inheritdoc />
         public Task<IEnumerable<IPageInfo<Page>>> GetPageInfo(string after, int first)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public async Task<Page> Get(string cursor)
         {
             // Get page and throw exception if page not found
@@ -45,6 +50,7 @@ namespace Backend.Repository.EF.Repository
             return page;
         }
 
+        /// <inheritdoc />
         public async Task<Page> AddPage(string url, string content)
         {
             // TODO: Handle dublicate page with custom exception
@@ -54,6 +60,7 @@ namespace Backend.Repository.EF.Repository
             return page;
         }
 
+        /// <inheritdoc />
         public async Task<Page> EditPage(string url, string content)
         {
             // Get page and update content
@@ -67,6 +74,7 @@ namespace Backend.Repository.EF.Repository
             return page;
         }
 
+        /// <inheritdoc />
         public async Task DeletePage(string url)
         {
             // Get page and delete
