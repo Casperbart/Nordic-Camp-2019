@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Exceptions;
 using Backend.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,8 +35,14 @@ namespace Backend.Repository.EF.Repository
 
         public async Task<Page> Get(string cursor)
         {
+            // Get page and throw exception if page not found
             var lowerCaseUrl = cursor.ToLower();
-            return await _context.Pages.SingleOrDefaultAsync(page => page.Url == lowerCaseUrl).ConfigureAwait(false);
+            var page =  await _context.Pages.SingleOrDefaultAsync(p => p.Url == lowerCaseUrl).ConfigureAwait(false);
+            if (page == null)
+            {
+                throw new PageNotFoundException();
+            }
+            return page;
         }
 
         public async Task<Page> AddPage(string url, string content)
@@ -49,12 +56,27 @@ namespace Backend.Repository.EF.Repository
 
         public async Task<Page> EditPage(string url, string content)
         {
-            throw new NotImplementedException();
+            // Get page and update content
+            var page = await _context.Set<Page>().SingleOrDefaultAsync(e => e.Url == url).ConfigureAwait(true);
+            if (page == null)
+            {
+                throw new PageNotFoundException();
+            }
+            page.Content = content;
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return page;
         }
 
-        public async Task<Page> DeletePage(string url, string content)
+        public async Task DeletePage(string url)
         {
-            throw new NotImplementedException();
+            // Get page and delete
+            var page = await _context.Set<Page>().SingleOrDefaultAsync(e => e.Url == url).ConfigureAwait(true);
+            if (page == null)
+            {
+                throw new PageNotFoundException();
+            }
+            _context.Set<Page>().Remove(page);
+            await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         private class EFNode<T> : INode<T> where T : class

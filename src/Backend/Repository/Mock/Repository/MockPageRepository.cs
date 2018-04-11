@@ -46,20 +46,43 @@ namespace Backend.Repository.Mock.Repository
 
         public Task<Page> AddPage(string url, string content)
         {
-            // TODO: We don't handle dublicate pages
+            // Check if page already exists
+            if (_pages.Any(p => p.Url == url))
+            {
+                throw new PageAlreadyExistsException();
+            }
+            
+            // Add page
             var page = new Page { Url = url, Content = content };
             _pages.Add(page);
             return Task.FromResult(page);
         }
 
-        public async Task<Page> EditPage(string url, string content)
+        public Task<Page> EditPage(string url, string content)
         {
-            throw new NotImplementedException();
+            // Get page
+            var page = _pages.FirstOrDefault(p => p.Url == url);
+            if (page == null)
+            {
+                throw new PageNotFoundException();
+            }
+
+            // Update content
+            page.Content = content;
+
+            return Task.FromResult(page);
         }
 
-        public async Task<Page> DeletePage(string url, string content)
+        public Task DeletePage(string url)
         {
-            throw new NotImplementedException();
+            // Get page
+            var page = _pages.FirstOrDefault(p => p.Url == url);
+            if (page == null)
+            {
+                throw new PageNotFoundException();
+            }
+
+            return Task.FromResult(true);
         }
     }
 }
