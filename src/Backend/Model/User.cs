@@ -80,9 +80,7 @@ namespace Backend.Model
         /// A place where all sort of stuff can be added, which are relevant for the user
         /// </summary>
         public string Remarks { get; set; }
-
-        // TODO: Remarks (string)
-        // TODO: Activities (string / chose from a list)
+        
         /// <summary>
         /// If set to true, the user do not mind that we take pictures of them.
         /// If set to false, the user do mind that we take pictures of them
@@ -90,9 +88,43 @@ namespace Backend.Model
         public bool PhotoPermission { get; set; }
 
         /// <summary>
+        /// Activities which the user has registrered to
+        /// </summary>
+        public virtual ICollection<ActivityRegistration> ActivityRegistrations { get; set; } = new List<ActivityRegistration>();
+
+        /// <summary>
         /// All the Guardians that are responsible for the user.
         /// </summary>
         public virtual ICollection<Guardian> Guardians { get; set; } = new List<Guardian>();
+    }
+
+    public class ActivityRegistration
+    {
+        public User User { get; set; }
+        public Activity Activity { get; set; }
+    }
+
+    public class Activity
+    {
+        [Key]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Name of the activity
+        /// </summary>
+        [Required(AllowEmptyStrings = false)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Description of the activity
+        /// </summary>
+        [Required(AllowEmptyStrings = false)]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Price for the activity in "øre"
+        /// </summary>
+        public int Price { get; set; }
     }
 
     public class Guardian
