@@ -18,14 +18,24 @@ namespace Backend.Repository.Mock.Repository
             }
         };
 
-        public Task<IEnumerable<Page>> GetPages()
+        public Task<IEnumerable<Page>> Get()
         {
             return Task.FromResult((IEnumerable<Page>)_pages.AsReadOnly());
         }
 
-        public Task<Page> GetPage(string url)
+        public async Task<IEnumerable<INode<Page>>> GetNodes(string after, int first)
         {
-            var page = _pages.FirstOrDefault(e => string.Equals(e.Url, url, StringComparison.CurrentCultureIgnoreCase));
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<IPageInfo<Page>>> GetPageInfo(string after, int first)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Page> Get(string cursor)
+        {
+            var page = _pages.FirstOrDefault(e => string.Equals(e.Url, cursor, StringComparison.CurrentCultureIgnoreCase));
             if (page == null)
             {
                 throw new PageNotFoundException();
