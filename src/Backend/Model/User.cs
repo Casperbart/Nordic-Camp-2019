@@ -15,7 +15,7 @@ namespace Backend.Model
         /// The unique userid used in the backend database
         /// </summary>
         [Key]
-        public Guid UserId { get; set; }
+        public Guid UserId { get; set; } = Guid.NewGuid();
 
         /// <summary>
         /// OpenID connect SubjectID - only releavant if user can login
@@ -132,6 +132,7 @@ namespace Backend.Model
         /// <summary>
         /// The unique userid used in the backend database
         /// </summary>
+        [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
         /// <summary>
