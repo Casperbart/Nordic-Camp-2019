@@ -27,7 +27,7 @@ namespace Backend.Repository.EF.Repository
                 .Select(e => new EFNode<Page>(e.Url, e)).ToListAsync().ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<IPageInfo<Page>>> GetPageInfo(string after, int first)
+        public Task<IEnumerable<IPageInfo<Page>>> GetPageInfo(string after, int first)
         {
             throw new NotImplementedException();
         }

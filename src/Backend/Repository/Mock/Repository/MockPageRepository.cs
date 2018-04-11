@@ -23,12 +23,12 @@ namespace Backend.Repository.Mock.Repository
             return Task.FromResult((IEnumerable<Page>)_pages.AsReadOnly());
         }
 
-        public async Task<IEnumerable<INode<Page>>> GetNodes(string after, int first)
+        public Task<IEnumerable<INode<Page>>> GetNodes(string after, int first)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<IPageInfo<Page>>> GetPageInfo(string after, int first)
+        public Task<IEnumerable<IPageInfo<Page>>> GetPageInfo(string after, int first)
         {
             throw new NotImplementedException();
         }
