@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Backend.Model;
 
-namespace Backend.Repositories
+namespace Backend.Repository
 {
     public interface IPageRepository
     {

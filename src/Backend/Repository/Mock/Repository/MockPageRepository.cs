@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Backend.Exceptions;
 using Backend.Model;
 
-namespace Backend.Repositories.Mock
+namespace Backend.Repository.Mock.Repository
 {
     public class MockPageRepository : IPageRepository
     {

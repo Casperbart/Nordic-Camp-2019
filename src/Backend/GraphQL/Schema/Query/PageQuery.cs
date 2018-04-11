@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Backend.GraphQL.Helper.Schema;
 using Backend.GraphQL.Helper.Schema.Base;
 using Backend.GraphQL.Types;
-using Backend.Repositories;
+using Backend.Repository;
 using GraphQL.Types;
 
 namespace Backend.GraphQL.Schema.Query
