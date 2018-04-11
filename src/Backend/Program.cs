@@ -18,14 +18,21 @@ namespace Backend
         {
             var host = BuildWebHost(args);
 
-            using (var scope = host.Services.CreateScope())
+            try
             {
-                var services = scope.ServiceProvider;
-
-                if (services.GetRequiredService<IHostingEnvironment>().IsDevelopment())
+                using (var scope = host.Services.CreateScope())
                 {
-                    DatabaseConfig.InitializeDatabase(services);
+                    var services = scope.ServiceProvider;
+
+                    if (services.GetRequiredService<IHostingEnvironment>().IsDevelopment())
+                    {
+                        DatabaseConfig.InitializeDatabase(services);
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                // Ignore exception on initilization of DB
             }
 
             host.Run();
