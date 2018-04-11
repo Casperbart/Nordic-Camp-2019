@@ -24,7 +24,7 @@ namespace Backend.Repository.EF
                 context.Pages.AddRange(new Page
                 {
                     Url = "About",
-                    Content = "# About Nordic 4H Camp\nWork in progress"
+                    Content = "# About Nordic 4H Camp\nDatabase loaded"
                 });
             }
 
