@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,10 +11,14 @@ namespace Backend.Model
     /// </summary>
     public class Page
     {
+        private string _url;
+
         /// <summary>
         /// Url for the page
         /// </summary>
-        public string Url { get; set; }
+        [Key, Required(AllowEmptyStrings = false)]
+
+        public string Url { get => _url; set => _url = value.ToLower(); }
 
         /// <summary>
         /// Content on the page

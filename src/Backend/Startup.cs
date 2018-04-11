@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.GraphQL.Helper.Builder;
 using Backend.GraphQL.Helper.Schema;
-using Backend.Repositories;
-using Backend.Repositories.Mock;
+using Backend.Repository.EF;
+using Backend.Repository.Mock;
 using GraphQL.DataLoader;
 using GraphQL.Server.Transports.AspNetCore;
 using GraphQL.Server.Ui.GraphiQL;
@@ -13,6 +13,7 @@ using GraphQL.Server.Ui.Playground;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Backend
@@ -29,8 +30,11 @@ namespace Backend
             services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
             services.AddTransient<DataLoaderDocumentListener>();
 
+            // Add EF Core
+            services.AddDbContextPool<ApplicationContext>(options => options.UseSqlite("Data Source=Backend.db"));
+
             // Add repositories
-            services.AddSingleton<IPageRepository, MockPageRepository>();
+            services.AddEfRepository();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

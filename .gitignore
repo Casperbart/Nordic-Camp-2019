@@ -569,3 +569,5 @@ tools/Cake/
 tools/packages\.config\.md5sum
 
 src/Frontend/package-lock\.json
+
+*.db
