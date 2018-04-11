@@ -38,6 +38,25 @@ namespace Backend.Repository.EF.Repository
             return await _context.Pages.SingleOrDefaultAsync(page => page.Url == lowerCaseUrl).ConfigureAwait(false);
         }
 
+        public async Task<Page> AddPage(string url, string content)
+        {
+            // TODO: Handle dublicate page with custom exception
+            var page = new Page {Url = url, Content = content};
+            _context.Add(page);
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return page;
+        }
+
+        public async Task<Page> EditPage(string url, string content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Page> DeletePage(string url, string content)
+        {
+            throw new NotImplementedException();
+        }
+
         private class EFNode<T> : INode<T> where T : class
         {
             public EFNode(string cursor, T node)

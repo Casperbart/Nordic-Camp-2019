@@ -43,5 +43,23 @@ namespace Backend.Repository.Mock.Repository
 
             return Task.FromResult(page);
         }
+
+        public Task<Page> AddPage(string url, string content)
+        {
+            // TODO: We don't handle dublicate pages
+            var page = new Page { Url = url, Content = content };
+            _pages.Add(page);
+            return Task.FromResult(page);
+        }
+
+        public async Task<Page> EditPage(string url, string content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Page> DeletePage(string url, string content)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
