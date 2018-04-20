@@ -33,7 +33,6 @@ export class Banner extends React.Component<{}, State> {
 
       autoChange() {
           this.handleClick();
-          console.log("Cool beans");
       }
 
       getImage(id: number) {
