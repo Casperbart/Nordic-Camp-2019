@@ -37,7 +37,7 @@ namespace Backend.GraphQL.Helper.Authorization
                         context.ReportError(new ValidationError(
                             context.OriginalQuery,
                             "auth-required",
-                            $"Authorization is required to access {op.Name}.",
+                            $"Authentification is required to access mutations.",
                             op));
                     }
                 });
