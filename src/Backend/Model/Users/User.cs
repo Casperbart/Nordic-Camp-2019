@@ -86,6 +86,18 @@ namespace Backend.Model.Users
         public bool PhotoPermission { get; set; }
 
         /// <summary>
+        /// If set to true, the user is a camper
+        /// If set to false, the user is not a camper
+        /// </summary>
+        public bool IsCamper { get; set; }
+
+        /// <summary>
+        /// If set to true, the user is a volunteer and therefore have additional access
+        /// If set to false, the user is not a volunteer
+        /// </summary>
+        public bool IsVolunteer { get; set; }
+
+        /// <summary>
         /// Activities which the user has registrered to
         /// </summary>
         public virtual ICollection<ActivityRegistration> ActivityRegistrations { get; set; } = new List<ActivityRegistration>();
