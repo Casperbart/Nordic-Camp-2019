@@ -13,7 +13,7 @@ namespace Backend.Model.Users
         /// The unique userid used in the backend database
         /// </summary>
         [Key]
-        public Guid UserId { get; set; } = Guid.NewGuid();
+        public string UserId { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
         /// OpenID connect SubjectID - only releavant if user can login
