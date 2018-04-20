@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Backend.Model
+namespace Backend.Model.Users
 {
     /// <summary>
     /// Common user model for volunteers and participants
@@ -96,99 +94,5 @@ namespace Backend.Model
         /// All the Guardians that are responsible for the user.
         /// </summary>
         public virtual ICollection<Guardian> Guardians { get; set; } = new List<Guardian>();
-    }
-    /// <summary>
-    /// Here the link between the User and the chosen Activity is made.
-    /// </summary>
-    public class ActivityRegistration
-    {
-        /// <summary>
-        /// The user that have signed up to the Activity
-        /// </summary>
-        public User User { get; set; }
-        
-        /// <summary>
-        /// The Activity that the user have signed up to 
-        /// </summary>
-        public Activity Activity { get; set; }
-    }
-
-    /// <summary>
-    /// A event that is happning at the Camp for a smaller group of people.
-    /// This could include: shopping trip to Rønne, Volly training, icecream teasting etc.
-    /// </summary>        
-    public class Activity
-    {
-        /// <summary>
-        /// The id used in the backend database
-        /// </summary>
-        [Key]
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Name of the activity
-        /// </summary>
-        [Required(AllowEmptyStrings = false)]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Description of the activity
-        /// </summary>
-        [Required(AllowEmptyStrings = false)]
-        public string Description { get; set; }
-
-        /// <summary>
-        /// Price for the activity in "øre"
-        /// </summary>
-        public int Price { get; set; }
-    }
-    
-    /// <summary>
-    /// If anything happens to the user / camper the Guardian should be contacted
-    /// </summary>
-    public class Guardian
-    {
-        /// <summary>
-        /// The unique userid used in the backend database
-        /// </summary>
-        [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
-
-        /// <summary>
-        /// The name which the user identifies it self with
-        /// </summary>
-        [Required(AllowEmptyStrings = false)]
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Also some places called the family name
-        /// </summary>
-        [Required(AllowEmptyStrings = false)]
-        public string LastName { get; set; }
-
-        /// <summary>
-        /// A electronic adress where we can send them mails electronicly
-        /// </summary>
-        [EmailAddress]
-        public string Email { get; set; }
-
-        /// <summary>
-        /// A number to the users phone s.t. we can call them if they do not anwser their mail
-        /// </summary>
-        [Phone]
-        public string PhoneNumber { get; set; }
-
-        /// <summary>
-        /// Where the Guardian lives, including zip code, city,  street name, number, floor
-        /// and left or right-hand-side
-        /// </summary>
-        [Required]
-        public string Address { get; set; }
-
-        /// <summary>
-        /// The Country where the Guardian is currently living
-        /// </summary>
-        [Required]
-        public string Country { get; set; }
     }
 }
