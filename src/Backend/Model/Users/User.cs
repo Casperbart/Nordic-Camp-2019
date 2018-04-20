@@ -22,25 +22,25 @@ namespace Backend.Model.Users
         public string SubjectId { get; set; }
         
         /// <summary>
-        /// The name which the user identifies it self with
+        /// The firstname of the user. The name which the user identifies it self with
         /// </summary>
         [Required(AllowEmptyStrings = false)]
         public string FirstName { get; set; }
         
         /// <summary>
-        /// Also some places called the family name
+        /// The lastname of the user. Also some places called the family name
         /// </summary>
         [Required(AllowEmptyStrings = false)]
         public string LastName { get; set; }
 
         /// <summary>
-        /// A electronic adress where we can send them mails electronic
+        /// An electronic adress where we can send them mails electronic
         /// </summary>
         [EmailAddress]
         public string Email { get; set; }
 
         /// <summary>
-        /// A number to the users phone s.t. we can call them if they do not anwser their mail
+        /// A number for the user's phone s.t. we can call them if they do not answer their mail
         /// </summary>
         [Phone]
         public string PhoneNumber { get; set; }
