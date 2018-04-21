@@ -1,4 +1,5 @@
-﻿using Backend.Repository.Mock.Repository;
+﻿using Backend.Model;
+using Backend.Repository.Mock.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Backend.Repository.Mock
@@ -8,7 +9,8 @@ namespace Backend.Repository.Mock
         public static IServiceCollection AddMockRepository(this IServiceCollection services)
         {
             return services
-                .AddSingleton<IPageRepository, MockPageRepository>();
+                .AddSingleton<IPageRepository, MockPageRepository>()
+                .AddSingleton<IGenericRepository<Page>>(s => s.GetService<IPageRepository>());
         }
     }
 }
