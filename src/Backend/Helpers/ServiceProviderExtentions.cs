@@ -4,13 +4,28 @@ using System.Linq;
 
 namespace Backend.Helpers
 {
+    /// <summary>
+    /// Contains extention methods for resolving types using a <see cref="IServiceProvider"/>
+    /// </summary>
     public static class ServiceProviderExtentions
     {
+        /// <summary>
+        /// Resolves the type <typeparamref name="T"/> using the <paramref name="serviceProvider"/>
+        /// </summary>
+        /// <typeparam name="T">The type to resolve</typeparam>
+        /// <param name="serviceProvider">The serviceProvider used to resolve dependencies</param>
+        /// <returns>Returns the type <typeparamref name="T"/></returns>
         public static T Resolve<T>(this IServiceProvider serviceProvider)
         {
             return (T)Resolve(serviceProvider, typeof(T));
         }
 
+        /// <summary>
+        /// Resolves the type <paramref name="type"/> using the <paramref name="serviceProvider"/>
+        /// </summary>
+        /// <param name="serviceProvider">The serviceProvider used to resolve dependencies</param>
+        /// <param name="type">The type to resolve</param>
+        /// <returns>Returns the resolved instance of the type <paramref name="type"/></returns>
         public static object Resolve(this IServiceProvider serviceProvider, Type type)
         {
             var serviceType = serviceProvider.GetService(type);
