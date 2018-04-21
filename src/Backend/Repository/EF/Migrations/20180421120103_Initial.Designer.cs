@@ -11,8 +11,8 @@ using System;
 namespace Backend.Repository.EF.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20180421104635_PageUrlToId")]
-    partial class PageUrlToId
+    [Migration("20180421120103_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
