@@ -34,6 +34,14 @@ namespace Backend
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add Cors
+            services.AddCors(o => o.AddPolicy("Default", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .WithMethods("POST")
+                    .AllowAnyHeader();
+            }));
+
             // Add GraphQL
             services.RegistrerSchema<GraphQLQuery, GraphQLMutation>();
             services.AddSingleton<IDataLoaderContextAccessor, DataLoaderContextAccessor>();
@@ -87,6 +95,9 @@ namespace Backend
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Cors
+            app.UseCors("Default");
 
             // Auth
             app.UseAuthentication();
