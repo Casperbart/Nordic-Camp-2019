@@ -11,9 +11,10 @@ using System;
 namespace Backend.Repository.EF.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20180420194752_UserInitial")]
+    partial class UserInitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,10 +114,6 @@ namespace Backend.Repository.EF.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired();
-
-                    b.Property<bool>("IsCamper");
-
-                    b.Property<bool>("IsVolunteer");
 
                     b.Property<string>("LastName")
                         .IsRequired();
