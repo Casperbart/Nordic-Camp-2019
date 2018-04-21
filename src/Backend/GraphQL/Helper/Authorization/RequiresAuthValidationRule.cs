@@ -21,7 +21,7 @@ namespace Backend.GraphQL.Helper.Authorization
         /// Returns validator which can validate authenfication and authorization requirements
         /// </summary>
         /// <param name="context">The GraphQL validationContext</param>
-        /// <returns></returns>
+        /// <returns>Returns a GraphQL Node Visitor which can validates authenfication and authorization requirements</returns>
         public INodeVisitor Validate(ValidationContext context)
         {
             var userContext = context.UserContext.As<GraphQLUserContext>();
