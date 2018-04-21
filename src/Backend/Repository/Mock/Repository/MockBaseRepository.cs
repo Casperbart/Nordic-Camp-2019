@@ -30,7 +30,7 @@ namespace Backend.Repository.Mock.Repository
         }
 
         /// <inheritdoc />
-        public async Task<IPageInfo<T>> GetPageInfo(string after, int first)
+        public async Task<IPageInfo> GetPageInfo(string after, int first)
         {
             // Get start and end cursor
             var startCursor = (await GetData()).OrderBy(GetCursor).Select(GetCursor).First();
@@ -55,7 +55,7 @@ namespace Backend.Repository.Mock.Repository
             var hasNextPage = (currentNumber - first) > 0;
             var hasPrevPage = countUntilCursor > 0;
 
-            return new RepositoryPageInfo<T>(totalCount: totalCount, page: page, hasNextPage: hasNextPage,
+            return new RepositoryPageInfo(totalCount: totalCount, page: page, hasNextPage: hasNextPage,
                 hasPrevPage: hasPrevPage, startCursor: startCursor.ToString(), endCursor: endCursor.ToString());
         }
 

@@ -1,7 +1,9 @@
 ﻿namespace Backend.Repository
 {
-    public interface IPageInfo<T>
-        where T : class
+    /// <summary>
+    /// Contains information about the current page in a connection query
+    /// </summary>
+    public interface IPageInfo
     {
         int TotalCount { get; }
         int Page { get; }

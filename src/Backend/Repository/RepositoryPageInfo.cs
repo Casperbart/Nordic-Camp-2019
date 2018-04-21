@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Repository
 {
-    public class RepositoryPageInfo<T> : IPageInfo<T> where T : class
+    public class RepositoryPageInfo : IPageInfo
     {
         public RepositoryPageInfo(int totalCount, int page, bool hasNextPage, bool hasPrevPage, string startCursor, string endCursor)
         {
