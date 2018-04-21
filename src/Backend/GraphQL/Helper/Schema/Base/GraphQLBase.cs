@@ -19,6 +19,7 @@ namespace Backend.GraphQL.Helper.Schema.Base
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Type = typeof(TGraphType);
             Resolver = new FuncFieldResolver<object>(Resolve);
+            Arguments = new QueryArguments();
         }
 
         protected virtual async Task<object> Resolve(ResolveFieldContext context)
