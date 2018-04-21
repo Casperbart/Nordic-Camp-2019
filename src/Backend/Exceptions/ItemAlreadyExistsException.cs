@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Exceptions
 {
@@ -8,5 +9,6 @@ namespace Backend.Exceptions
     public class ItemAlreadyExistsException : Exception
     {
         public ItemAlreadyExistsException() : base("Item already exists") { }
+        public ItemAlreadyExistsException(Exception innerException) : base("Item already exists", innerException) { }
     }
 }
