@@ -4,6 +4,9 @@ using Backend.Model;
 
 namespace Backend.Repository
 {
+    /// <summary>
+    /// Contains methods for accessing the pages
+    /// </summary>
     public interface IPageRepository : IGenericRepository<Page>
     {
         /// <summary>
