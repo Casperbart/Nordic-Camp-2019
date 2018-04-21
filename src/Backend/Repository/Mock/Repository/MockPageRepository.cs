@@ -10,6 +10,7 @@ namespace Backend.Repository.Mock.Repository
     /// <inheritdoc />
     public class MockPageRepository : MockBaseRepository<Page>, IPageRepository
     {
+        /// <inheritdoc />
         public override Task<List<Page>> GetInitialData()
         {
             return Task.FromResult(new List<Page>()
@@ -22,6 +23,7 @@ namespace Backend.Repository.Mock.Repository
             });
         }
 
+        /// <inheritdoc />
         public override string GetCursor(Page item)
         {
             return item.Url;

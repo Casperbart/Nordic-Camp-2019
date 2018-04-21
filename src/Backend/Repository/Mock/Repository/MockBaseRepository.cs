@@ -75,6 +75,10 @@ namespace Backend.Repository.Mock.Repository
             return page;
         }
 
+        /// <summary>
+        /// Get the data which is contained in the repository
+        /// </summary>
+        /// <returns>The current data in the repository (can be updated)</returns>
         protected async Task<List<T>> GetData()
         {
             if (_mockData == null)
@@ -83,8 +87,17 @@ namespace Backend.Repository.Mock.Repository
             return _mockData;
         }
 
+        /// <summary>
+        /// Gets the initial data
+        /// </summary>
+        /// <returns>The initial data which should be inserted in the mock repository</returns>
         public abstract Task<List<T>> GetInitialData();
 
+        /// <summary>
+        /// Gets a cursor from a single item
+        /// </summary>
+        /// <param name="item">The item to get the cursor from</param>
+        /// <returns>Returns the cursor</returns>
         public abstract string GetCursor(T item);
     }
 }
