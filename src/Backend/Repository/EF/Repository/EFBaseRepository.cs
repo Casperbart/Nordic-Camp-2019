@@ -8,11 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repository.EF.Repository
 {
+    /// <summary>
+    /// Contains a generic implementation of the <see cref="IGenericRepository{T}"/> using Entity Framework Core with the context <see cref="ApplicationContext"/>
+    /// </summary>
+    /// <typeparam name="T">The entity type which the repository should use</typeparam>
+    /// <typeparam name="TKey">The type of the key in the entity type (also used as cursor)</typeparam>
     public abstract class EFBaseRepository<T, TKey> : IGenericRepository<T> where T : BaseEntity<TKey>
     {
         protected readonly ApplicationContext Context;
 
-        public EFBaseRepository(ApplicationContext context)
+        /// <summary>
+        /// Initilizes the generic implementation of the repository using the context <see cref="ApplicationContext"/>
+        /// </summary>
+        /// <param name="context">The applicationcontext. Cannot be null</param>
+        protected EFBaseRepository(ApplicationContext context)
         {
             Context = context ?? throw new ArgumentNullException(nameof(context));
         }

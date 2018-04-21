@@ -11,6 +11,7 @@ namespace Backend.Repository.EF.Repository
     /// <inheritdoc />
     public class EfPageRepository : EFBaseRepository<Page, string>, IPageRepository
     {
+        /// <inheritdoc />
         public EfPageRepository(ApplicationContext context) : base(context)
         {
         }

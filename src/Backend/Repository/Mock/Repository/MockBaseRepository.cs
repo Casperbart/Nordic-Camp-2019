@@ -6,6 +6,10 @@ using Backend.Exceptions;
 
 namespace Backend.Repository.Mock.Repository
 {
+    /// <summary>
+    /// Contains a mock implementation of the <see cref="IGenericRepository{T}"/> interface
+    /// </summary>
+    /// <typeparam name="T">The type which the repository should handle</typeparam>
     public abstract class MockBaseRepository<T> : IGenericRepository<T> where T : class
     {
         private List<T> _mockData;
