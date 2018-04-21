@@ -1,9 +1,14 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { Banner } from './Banner';
 
 export class Home extends React.Component<RouteComponentProps<{}>, {}> {
     public render() {
         return <div>
+            <div className="banner">
+                <Banner/>
+            </div>
+            
             <h1>Cool beans!</h1>
             <p>Welcome to your new single-page application, built with:</p>
             <ul>
