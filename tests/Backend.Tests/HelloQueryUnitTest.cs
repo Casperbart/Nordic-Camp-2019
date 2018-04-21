@@ -7,10 +7,6 @@ namespace Backend.Tests
 {
     public class HelloQueryUnitTest : BaseGraphQLUnitTest
     {
-        public HelloQueryUnitTest(ServiceProviderFixture serviceProvider) : base(serviceProvider)
-        {
-        }
-
         [Fact]
         public async Task TestQuery()
         {
