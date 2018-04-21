@@ -21,7 +21,6 @@ namespace Backend.Repository.EF.Repository
         {
             try
             {
-                // TODO: Handle dublicate page with custom exception
                 var page = new Page {Url = url, Content = content};
                 Context.Add(page);
                 await Context.SaveChangesAsync().ConfigureAwait(false);
