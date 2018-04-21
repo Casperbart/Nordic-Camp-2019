@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="GraphQL\Types\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -14,6 +13,10 @@
     <PackageReference Include="GraphQL.Server.Ui.GraphiQL" Version="3.0.0" />
     <PackageReference Include="GraphQL.Server.Ui.Playground" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
   </ItemGroup>
 
 </Project>

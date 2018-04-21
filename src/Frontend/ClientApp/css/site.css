@@ -8,7 +8,6 @@ body {
 }
 
 /* Highlighting rules for nav menu items */
-.main-nav .navbar li a.active,
 .main-nav .navbar li a.active {
     background-color: #63A792;
 }

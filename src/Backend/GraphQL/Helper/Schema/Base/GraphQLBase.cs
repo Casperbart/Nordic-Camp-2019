@@ -13,15 +13,13 @@ namespace Backend.GraphQL.Helper.Schema.Base
         // If the order of the typeparameters is changed, remember to change the builder as well
         private readonly IServiceProvider _serviceProvider;
 
-        public GraphQLBase(IServiceProvider serviceProvider, string name, params QueryArgument[] arguments)
+        public GraphQLBase(IServiceProvider serviceProvider, string name)
         {
             _serviceProvider = serviceProvider;
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Type = typeof(TGraphType);
             Resolver = new FuncFieldResolver<object>(Resolve);
-
-            if (arguments != null)
-                Arguments = new QueryArguments(arguments);
+            Arguments = new QueryArguments();
         }
 
         protected virtual async Task<object> Resolve(ResolveFieldContext context)
