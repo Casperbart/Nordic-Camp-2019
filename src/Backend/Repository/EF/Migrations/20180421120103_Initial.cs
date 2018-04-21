@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Backend.Repository.EF.Migrations
 {
-    public partial class UserInitial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,6 +24,18 @@ namespace Backend.Repository.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Pages",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Content = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -35,6 +47,8 @@ namespace Backend.Repository.EF.Migrations
                     Country = table.Column<string>(nullable: false),
                     Email = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: false),
+                    IsCamper = table.Column<bool>(nullable: false),
+                    IsVolunteer = table.Column<bool>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: true),
                     PhotoPermission = table.Column<bool>(nullable: false),
@@ -112,6 +126,9 @@ namespace Backend.Repository.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Guardians");
+
+            migrationBuilder.DropTable(
+                name: "Pages");
 
             migrationBuilder.DropTable(
                 name: "Activities");

@@ -21,12 +21,12 @@ namespace Backend.Repository.EF.Migrations
 
             modelBuilder.Entity("Backend.Model.Page", b =>
                 {
-                    b.Property<string>("Url")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Content");
 
-                    b.HasKey("Url");
+                    b.HasKey("Id");
 
                     b.ToTable("Pages");
                 });

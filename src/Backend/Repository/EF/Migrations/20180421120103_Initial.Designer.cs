@@ -11,8 +11,8 @@ using System;
 namespace Backend.Repository.EF.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20180420194752_UserInitial")]
-    partial class UserInitial
+    [Migration("20180421120103_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,12 +22,12 @@ namespace Backend.Repository.EF.Migrations
 
             modelBuilder.Entity("Backend.Model.Page", b =>
                 {
-                    b.Property<string>("Url")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Content");
 
-                    b.HasKey("Url");
+                    b.HasKey("Id");
 
                     b.ToTable("Pages");
                 });
@@ -114,6 +114,10 @@ namespace Backend.Repository.EF.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired();
+
+                    b.Property<bool>("IsCamper");
+
+                    b.Property<bool>("IsVolunteer");
 
                     b.Property<string>("LastName")
                         .IsRequired();
