@@ -9,8 +9,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Backend.GraphQL.Helper.Builder
 {
+    /// <summary>
+    /// Contains extention methods for registrering GraphQL schemas in DependencyInjection container
+    /// </summary>
+    // ReSharper disable once InconsistentNaming
     public static class GraphQLServiceBuilder
     {
+        /// <summary>
+        /// Registrer a GraphQL schema using the specified <typeparamref name="TQuery"/> type and the specified <typeparamref name="TMutation"/> type
+        /// </summary>
+        /// <typeparam name="TQuery">The query GraphQL type</typeparam>
+        /// <typeparam name="TMutation">The mutation GraphQL type</typeparam>
+        /// <param name="services">The serviceCollection to registrer the schema on</param>
+        /// <returns>The same <see cref="IServiceCollection"/> as recieved at parameter <paramref name="services"/></returns>
         public static IServiceCollection RegistrerSchema<TQuery, TMutation>(this IServiceCollection services)
             where TQuery : class, IObjectGraphType
             where TMutation : class, IObjectGraphType
@@ -32,42 +43,9 @@ namespace Backend.GraphQL.Helper.Builder
                 services.AddSingleton(type);
                 services.AddSingleton<GraphQLBaseInformation>(provider =>
                     (GraphQLBaseInformation) provider.GetService(type));
-
-                // Get mutationInformation
-                if (IsSubclassOfRawGeneric(typeof(GraphQLBase<,>), type))
-                {
-                    // Get generic type
-                    Type queryBaseType = type;
-                    while ((!queryBaseType.GetTypeInfo().IsGenericType || queryBaseType.GetGenericTypeDefinition() != typeof(GraphQLBase<,>)) && queryBaseType != typeof(object))
-                    {
-                        queryBaseType = queryBaseType.GetTypeInfo().BaseType;
-                    }
-
-                    // Check if it's a object
-                    if (queryBaseType == typeof(object))
-                        continue;
-
-                    // Add executor to services
-                    var executor = queryBaseType.GenericTypeArguments[1];
-                    services.AddScoped(executor);
-                }
             }
             
             return services;
-        }
-
-        static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
-        {
-            while (toCheck != null && toCheck != typeof(object))
-            {
-                var cur = toCheck.GetTypeInfo().IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
-                if (generic == cur)
-                {
-                    return true;
-                }
-                toCheck = toCheck.GetTypeInfo().BaseType;
-            }
-            return false;
         }
     }
 }
