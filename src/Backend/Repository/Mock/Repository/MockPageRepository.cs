@@ -8,89 +8,74 @@ using Backend.Model;
 namespace Backend.Repository.Mock.Repository
 {
     /// <inheritdoc />
-    public class MockPageRepository : IPageRepository
+    public class MockPageRepository : MockBaseRepository<Page>, IPageRepository
     {
-        private List<Page> _pages = new List<Page>()
+        public override Task<List<Page>> GetInitialData()
         {
-            new Page
+            return Task.FromResult(new List<Page>()
             {
-                Url = "About",
-                Content = "# About Nordic 4H Camp\nWork in progress"
-            }
-        };
+                new Page
+                {
+                    Url = "About",
+                    Content = "# About Nordic 4H Camp\nWork in progress"
+                }
+            });
+        }
 
-        /// <inheritdoc />
-        public Task<IEnumerable<Page>> Get()
+        public override string GetCursor(Page item)
         {
-            return Task.FromResult((IEnumerable<Page>)_pages.AsReadOnly());
+            return item.Url;
         }
 
         /// <inheritdoc />
-        public Task<IEnumerable<INode<Page>>> GetNodes(string after, int first)
+        public async Task<Page> AddPage(string url, string content)
         {
-            throw new NotImplementedException();
-        }
+            // Get data
+            var mockData = await GetData();
 
-        /// <inheritdoc />
-        public Task<IEnumerable<IPageInfo<Page>>> GetPageInfo(string after, int first)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public Task<Page> Get(string cursor)
-        {
-            var page = _pages.FirstOrDefault(e => string.Equals(e.Url, cursor, StringComparison.CurrentCultureIgnoreCase));
-            if (page == null)
-            {
-                throw new PageNotFoundException();
-            }
-
-            return Task.FromResult(page);
-        }
-
-        /// <inheritdoc />
-        public Task<Page> AddPage(string url, string content)
-        {
             // Check if page already exists
-            if (_pages.Any(p => p.Url == url))
+            if (mockData.Any(p => p.Url == url))
             {
-                throw new PageAlreadyExistsException();
+                throw new ItemAlreadyExistsException();
             }
             
             // Add page
             var page = new Page { Url = url, Content = content };
-            _pages.Add(page);
-            return Task.FromResult(page);
+            mockData.Add(page);
+            return page;
         }
 
         /// <inheritdoc />
-        public Task<Page> EditPage(string url, string content)
+        public async Task<Page> EditPage(string url, string content)
         {
+            // Get data
+            var mockData = await GetData();
+
             // Get page
-            var page = _pages.FirstOrDefault(p => p.Url == url);
+            var page = mockData.FirstOrDefault(p => p.Url == url);
             if (page == null)
             {
-                throw new PageNotFoundException();
+                throw new ItemNotFoundException();
             }
 
             // Update content
             page.Content = content;
 
-            return Task.FromResult(page);
+            return page;
         }
 
         /// <inheritdoc />
-        public Task DeletePage(string url)
+        public async Task DeletePage(string url)
         {
+            // Get data
+            var mockData = await GetData();
+
             // Get page
-            var page = _pages.FirstOrDefault(p => p.Url == url);
+            var page = mockData.FirstOrDefault(p => p.Url == url);
             if (page == null)
             {
-                throw new PageNotFoundException();
+                throw new ItemNotFoundException();
             }
-
-            return Task.FromResult(true);
         }
     }
 }

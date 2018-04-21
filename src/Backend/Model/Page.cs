@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,16 +10,13 @@ namespace Backend.Model
     /// <summary>
     /// Contains information about a page on the website
     /// </summary>
-    public class Page
+    public class Page : BaseEntity<string>
     {
-        private string _url;
-
         /// <summary>
         /// Url for the page
         /// </summary>
-        [Key, Required(AllowEmptyStrings = false)]
-
-        public string Url { get => _url; set => _url = value.ToLower(); }
+        [NotMapped]
+        public string Url { get => Id; set => Id = value.ToLower(); }
 
         /// <summary>
         /// Content on the page

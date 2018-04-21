@@ -7,7 +7,7 @@ namespace Backend.Repository
     {
         Task<IEnumerable<T>> Get();
         Task<IEnumerable<INode<T>>> GetNodes(string after, int first);
-        Task<IEnumerable<IPageInfo<T>>> GetPageInfo(string after, int first);
+        Task<IPageInfo<T>> GetPageInfo(string after, int first);
         Task<T> Get(string cursor);
     }
 }

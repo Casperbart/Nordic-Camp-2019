@@ -6,6 +6,7 @@
         int TotalCount { get; }
         int Page { get; }
         bool HasNextPage { get; }
+        bool HasPrevPage { get; }
 
         string StartCursor { get; }
         string EndCursor { get; }
