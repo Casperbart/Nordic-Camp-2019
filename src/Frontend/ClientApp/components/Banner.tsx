@@ -4,7 +4,8 @@ import { RouteComponentProps } from 'react-router';
 interface State {
     images: string[],
     currentImageId: number,
-    currentImage: string
+    currentImage: string,
+    intervalId: number
 }
 
 export class Banner extends React.Component<{}, State> {
@@ -13,15 +14,23 @@ export class Banner extends React.Component<{}, State> {
         this.state = {
           images: ["http://barkpost-assets.s3.amazonaws.com/wp-content/uploads/2013/11/plainDoge.jpg", "https://i.pinimg.com/736x/36/8d/fe/368dfe1131382533c9c05b13abf59845.jpg"],
           currentImageId: 0,
-          currentImage: ""
+          currentImage: "",
+          intervalId: 0
         };
-        
       }
 
       componentDidMount() {
-        setInterval(this.autoChange.bind(this), 3000);
-        this.setState({currentImage: this.getImage(0)})
+        const interval = setInterval(this.autoChange.bind(this), 3000);
+        this.setState({
+            currentImage: this.getImage(0),
+            intervalId: interval
+        })
       }
+
+      componentWillUnmount() {
+          clearInterval(this.state.intervalId);
+      }
+
 
       handleClick() {
         if(this.state.currentImageId === 0) {
