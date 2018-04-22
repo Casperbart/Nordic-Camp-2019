@@ -33,15 +33,32 @@ Task("Build")
 	DotNetCoreBuild(sln, settings);
 });
 
+Task("Test")
+	.IsDependentOn("Build")
+    .Does(() =>
+{
+	var projects = GetFiles("./tests/**/*.csproj");
+	foreach(var project in projects)
+	{
+		DotNetCoreTest(
+			project.FullPath,
+			new DotNetCoreTestSettings()
+			{
+				Configuration = configuration,
+				NoBuild = true
+			});
+	}
+});
+
+
 Task("Publish")
-	.IsDependentOn("Restore-NuGet-Packages") // Publish implicit builds
+	.IsDependentOn("Test") // Publish implicit builds
 	.Does(() =>
 {
 	var settings = new DotNetCorePublishSettings
     {
 		Configuration = configuration,
 		NoRestore = true,
-		
     };
 
 	DotNetCorePublish(sln, settings);

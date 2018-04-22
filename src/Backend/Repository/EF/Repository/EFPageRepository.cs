@@ -9,68 +9,71 @@ using Microsoft.EntityFrameworkCore;
 namespace Backend.Repository.EF.Repository
 {
     /// <inheritdoc />
-    public class EfPageRepository : IPageRepository
+    public class EfPageRepository : EFBaseRepository<Page, string>, IPageRepository
     {
-        private readonly ApplicationContext _context;
-
-        public EfPageRepository(ApplicationContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
-
         /// <inheritdoc />
-        public async Task<IEnumerable<Page>> Get()
+        public EfPageRepository(ApplicationContext context) : base(context)
         {
-            return await _context.Pages.ToListAsync().ConfigureAwait(false);
         }
-
-        /// <inheritdoc />
-        public async Task<IEnumerable<INode<Page>>> GetNodes(string after, int first)
-        {
-            return await _context.Pages.OrderBy(e => e.Url).SkipWhile(e => e.Url != after).Take(first)
-                .Select(e => new EFNode<Page>(e.Url, e)).ToListAsync().ConfigureAwait(false);
-        }
-
-        /// <inheritdoc />
-        public Task<IEnumerable<IPageInfo<Page>>> GetPageInfo(string after, int first)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public async Task<Page> Get(string cursor)
-        {
-            // Get page and throw exception if page not found
-            var lowerCaseUrl = cursor.ToLower();
-            var page =  await _context.Pages.SingleOrDefaultAsync(p => p.Url == lowerCaseUrl).ConfigureAwait(false);
-            if (page == null)
-            {
-                throw new PageNotFoundException();
-            }
-            return page;
-        }
-
+        
         /// <inheritdoc />
         public async Task<Page> AddPage(string url, string content)
         {
-            // TODO: Handle dublicate page with custom exception
-            var page = new Page {Url = url, Content = content};
-            _context.Add(page);
-            await _context.SaveChangesAsync().ConfigureAwait(false);
-            return page;
+            try
+            {
+                var page = new Page {Url = url, Content = content};
+                Context.Add(page);
+                await Context.SaveChangesAsync().ConfigureAwait(false);
+                return page;
+            }
+            catch (DbUpdateException updateException)
+            {
+                // Handle update exceptions
+                // It could here be the case that the page already exists
+                // We check this by quering the database
+                try
+                {
+                    // Get the page
+                    var page = await Get(url);
+
+                    // Page was found and therefore it's a dublicate
+                    if (page != null)
+                    {
+                        throw new ItemAlreadyExistsException(updateException);
+                    }
+                }
+                catch (ItemNotFoundException)
+                {
+                    // The item was not found and is therefore possible a serious error
+                    // We want therefore to throw the original exception and therefore fall out
+                    // If we throw here we just throw the ItemNotFoundException
+                }
+                catch (ItemAlreadyExistsException)
+                {
+                    // Thrown when the page already exists
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    // Return both exceptions
+                    throw new AggregateException(updateException, ex);
+                }
+
+                throw;
+            }
         }
 
         /// <inheritdoc />
         public async Task<Page> EditPage(string url, string content)
         {
             // Get page and update content
-            var page = await _context.Set<Page>().SingleOrDefaultAsync(e => e.Url == url).ConfigureAwait(true);
+            var page = await Context.Set<Page>().SingleOrDefaultAsync(e => e.Url == url).ConfigureAwait(true);
             if (page == null)
             {
-                throw new PageNotFoundException();
+                throw new ItemNotFoundException();
             }
             page.Content = content;
-            await _context.SaveChangesAsync().ConfigureAwait(false);
+            await Context.SaveChangesAsync().ConfigureAwait(false);
             return page;
         }
 
@@ -78,25 +81,13 @@ namespace Backend.Repository.EF.Repository
         public async Task DeletePage(string url)
         {
             // Get page and delete
-            var page = await _context.Set<Page>().SingleOrDefaultAsync(e => e.Url == url).ConfigureAwait(true);
+            var page = await Context.Set<Page>().SingleOrDefaultAsync(e => e.Url == url).ConfigureAwait(true);
             if (page == null)
             {
-                throw new PageNotFoundException();
+                throw new ItemNotFoundException();
             }
-            _context.Set<Page>().Remove(page);
-            await _context.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        private class EFNode<T> : INode<T> where T : class
-        {
-            public EFNode(string cursor, T node)
-            {
-                Cursor = cursor ?? throw new ArgumentNullException(nameof(cursor));
-                Node = node ?? throw new ArgumentNullException(nameof(node));
-            }
-
-            public string Cursor { get; }
-            public T Node { get; }
+            Context.Set<Page>().Remove(page);
+            await Context.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }
